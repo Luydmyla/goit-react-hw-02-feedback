@@ -1,0 +1,10 @@
+.Statistics__value {
+  font-size: 20px;
+  font-weight: bold;
+  color: royalblue;
+}
+.Statistics__total {
+  font-size: 24px;
+  font-weight: bold;
+  color: salmon;
+}

@@ -1,6 +1,9 @@
 import { Component } from 'react';
+import FeedbackOptions from './FeedbackOptions';
 import Statistics from './Statistics';
 import Notification from './Notification';
+import Section from './Section';
+
 import './Feedback.css';
 
 class Feedback extends Component {
@@ -14,19 +17,24 @@ class Feedback extends Component {
     neutral: this.props.initialNeutral,
     bad: this.props.initialBad,
   };
-  handleGood = () => {
+  // leaveFeedbackGood = () => {
+  //   this.setState(prevState => ({
+  //     good: prevState.good + 1,
+  //   }));
+  // };
+  // leaveFeedbackNeutral = () => {
+  //   this.setState(prevState => ({
+  //     neutral: prevState.neutral + 1,
+  //   }));
+  // };
+  // leaveFeedbackBad = () => {
+  //   this.setState(prevState => ({
+  //     bad: prevState.bad + 1,
+  //   }));
+  // };
+  leaveFeedback = type => {
     this.setState(prevState => ({
-      good: prevState.good + 1,
-    }));
-  };
-  handleNeutral = () => {
-    this.setState(prevState => ({
-      neutral: prevState.neutral + 1,
-    }));
-  };
-  handleBad = () => {
-    this.setState(prevState => ({
-      bad: prevState.bad + 1,
+      [type]: prevState[type] + 1,
     }));
   };
 
@@ -37,40 +45,55 @@ class Feedback extends Component {
     // console.log(countGood);
     const countTotalFeedback = countGood + countNeutral + countBad;
     const countPositiveFeedbackPercentage =
-      countTotalFeedback === 0 ? '0' : (countGood / countTotalFeedback) * 100;
-    // console.log(countTotalFeedback);
-    // console.log(countPositiveFeedbackPercentage);
+      countTotalFeedback === 0
+        ? '0'
+        : ((countGood / countTotalFeedback) * 100).toFixed(0);
     return (
       <div className="Feedback">
         <div>
-          <h2 className="Statistics__title"> Please, leave feedback </h2>
-          <div>
-            <button
-              type="button"
-              //   onClick={() => {
-              //     console.log('клікнули на good');
-              //   }}
-              onClick={this.handleGood}
-              className="Feedback__button"
-            >
-              good
-            </button>
-            <button
-              type="button"
-              onClick={this.handleNeutral}
-              className="Feedback__button"
-            >
-              neutral
-            </button>
-            <button
-              type="button"
-              onClick={this.handleBad}
-              className="Feedback__button"
-            >
-              bad
-            </button>
-          </div>
+          {/* <h2 className="Statistics__title"> Please, leave feedback </h2> */}
+          <Section title="Please, leave feedback">
+            <div>
+              <FeedbackOptions
+                options={'good'}
+                onLeaveFeedback={() => this.leaveFeedback('good')}
+              />
+              <FeedbackOptions
+                options={'neutral'}
+                onLeaveFeedback={() => this.leaveFeedback('neutral')}
+              />
+              <FeedbackOptions
+                options={'bad'}
+                onLeaveFeedback={() => this.leaveFeedback('bad')}
+              />
+              {/* <button
+                type="button"
+                //   onClick={() => {
+                //     console.log('клікнули на good');
+                //   }}
+                onClick={this.leaveFeedbackGood}
+                className="Feedback__button"
+              >
+                good
+              </button> */}
+              {/* <button
+                type="button"
+                onClick={this.leaveFeedbackNeutral}
+                className="Feedback__button"
+              >
+                neutral
+              </button>
+              <button
+                type="button"
+                onClick={this.leaveFeedbackBad}
+                className="Feedback__button"
+              >
+                bad
+              </button> */}
+            </div>
+          </Section>
         </div>
+
         {/* <div className="Statistics__value">
           <h3 className="Statistics__title">Statistics</h3>
           <div>
@@ -83,17 +106,19 @@ class Feedback extends Component {
           <p> Total: {countTotalFeedback} </p>
           <p> PositiveFeedback: {countPositiveFeedbackPercentage} % </p>
         </div> */}
-        {countTotalFeedback ? (
-          <Statistics
-            good={countGood}
-            neutral={countNeutral}
-            bad={countBad}
-            total={countTotalFeedback}
-            positivePercentage={countPositiveFeedbackPercentage}
-          />
-        ) : (
-          <Notification message="There is no feedback" />
-        )}
+        <Section title="Statistics">
+          {countTotalFeedback ? (
+            <Statistics
+              good={countGood}
+              neutral={countNeutral}
+              bad={countBad}
+              total={countTotalFeedback}
+              positivePercentage={countPositiveFeedbackPercentage}
+            />
+          ) : (
+            <Notification message="There is no feedback" />
+          )}
+        </Section>
       </div>
     );
   }
