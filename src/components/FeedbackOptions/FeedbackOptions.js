@@ -3,18 +3,20 @@ import PropTypes from 'prop-types';
 import './FeedbackOptions.css';
 
 function FeedbackOptions({ options, onLeaveFeedback }) {
-  return (
+  return options.map(option => (
     <button
+      key={option}
       type="button"
-      onClick={onLeaveFeedback}
+      onClick={() => onLeaveFeedback(option)}
       className="Feedback__button"
     >
-      {options}
+      {option}
     </button>
-  );
+  ));
 }
 
 FeedbackOptions.prorpTypes = {
-  options: PropTypes.oneOf(['good', 'neutral', 'bad']),
+  options: PropTypes.arrayOf(PropTypes.string),
+  onLeaveFeedback: PropTypes.func,
 };
 export default FeedbackOptions;

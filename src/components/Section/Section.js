@@ -4,7 +4,6 @@ function Section({ title, children }) {
   return (
     <div>
       {title && <h2 className="Statistics__title"> {title} </h2>}
-      {/* return <h2 className="Statistics__title"> {title} </h2>; */}
       {children}
     </div>
   );
