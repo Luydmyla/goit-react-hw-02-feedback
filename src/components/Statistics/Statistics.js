@@ -2,7 +2,7 @@ import React from 'react';
 import './Statistics.css';
 const Statistics = ({ good, neutral, bad, total, positivePercentage }) => {
   return (
-    <div className="Statistics__value">
+    <div className="Statistics__feedback">
       {/* <h3 className="Statistics__title">Statistics</h3> */}
       <div>
         <p> Good: {good} </p>
@@ -11,8 +11,13 @@ const Statistics = ({ good, neutral, bad, total, positivePercentage }) => {
       </div>
 
       <div className="Statistics__total">
-        <p> Total: {total} </p>
-        <p> PositiveFeedback: {positivePercentage} % </p>
+        <p>
+          Total : <span className="Statistics__value"> {total} </span>
+        </p>
+        <p>
+          PositiveFeedback :
+          <span className="Statistics__value"> {positivePercentage} % </span>
+        </p>
       </div>
     </div>
   );
