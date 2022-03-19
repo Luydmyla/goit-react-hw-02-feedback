@@ -1,15 +1,14 @@
 import React from 'react';
 import './Statistics.css';
-const Statistics = ({ good, neutral, bad, total, positivePercentage }) => {
+const Statistics = ({ options, total, positivePercentage }) => {
+  // console.log(options);
   return (
     <div className="Statistics__feedback">
-      {/* <h3 className="Statistics__title">Statistics</h3> */}
-      <div>
-        <p> Good: {good} </p>
-        <p> Neutral: {neutral} </p>
-        <p> Bad: {bad} </p>
-      </div>
-
+      {Object.keys(options).map(key => (
+        <p key={key}>
+          {key} : {options[key]}
+        </p>
+      ))}
       <div className="Statistics__total">
         <p>
           Total : <span className="Statistics__value"> {total} </span>

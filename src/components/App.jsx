@@ -4,8 +4,6 @@ import Statistics from './Statistics';
 import Notification from './Notification';
 import Section from './Section';
 
-
-
 class Feedback extends Component {
   static defaultProps = {
     initialGood: 0,
@@ -19,38 +17,37 @@ class Feedback extends Component {
   };
   
   leaveFeedback = type => {
-    this.setState(prevState => ({
+      this.setState(prevState => ({
       [type]: prevState[type] + 1,
     }));
   };
-
+  countTotalFeedback = () => {
+    const options  = this.state;
+        return Object.values(options).reduce((total, value) => value + total, 0);
+  }
+  countPositiveFeedbackPercentage = () => {
+    const good = this.state.good;
+    return (this.countTotalFeedback() === 0
+      ? '0'
+      : ((good / this.countTotalFeedback()) * 100).toFixed(0))
+  }
   render() {
-    const countGood = this.state.good;
-    const countNeutral = this.state.neutral;
-    const countBad = this.state.bad;
-    const countTotalFeedback = countGood + countNeutral + countBad;
-    const countPositiveFeedbackPercentage =
-      countTotalFeedback === 0
-        ? '0'
-        : ((countGood / countTotalFeedback) * 100).toFixed(0);
-    return (
+     return (
       <div className="Feedback">
          <Section title="Please, leave feedback">
             <div>
               <FeedbackOptions
-                options={['good', 'neutral', 'bad']}
+                options={Object.keys(this.state)}
                 onLeaveFeedback={this.leaveFeedback}
               />
             </div>
           </Section>
           <Section title="Statistics">
-          {countTotalFeedback ? (
+          {this.countTotalFeedback() ? (
             <Statistics
-              good={countGood}
-              neutral={countNeutral}
-              bad={countBad}
-              total={countTotalFeedback}
-              positivePercentage={countPositiveFeedbackPercentage}
+              options={this.state}
+              total={this.countTotalFeedback()}
+              positivePercentage={this.countPositiveFeedbackPercentage()}
             />
           ) : (
             <Notification message="There is no feedback" />
